@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MontyHall_Backend</name>
+    </assembly>
+    <members>
+        <member name="M:MontyHall_Backend.Controllers.GameController.SimulateGame(MontyHall_Backend.Models.SimulationRequest)">
+            <summary>
+            This the Simulation API Post Request for MontyHall Game Paradox  
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
