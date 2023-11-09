@@ -7,57 +7,73 @@ namespace MontyHall_Backend.Services
 
         public MontyHallResult SimulateGame(int numSimulations, bool changeDoor)
         {
-            // Implement the game simulation logic here
-            // Return the simulation results
-
-            Random random = new Random();
-            int wins = 0;
-            int losses = 0;
-
-            for (int i = 0; i < numSimulations; i++)
+            try
             {
-                // Randomly place the car behind one of the three doors
-                int carPosition = random.Next(3);
 
-                // Player randomly selects a door this represents the initialize choice
-                int playerChoice = random.Next(3);
+                // Implement the game simulation logic here
+                // Return the simulation results
 
-                // Determine which door the presenter will open
-                int presenterOpen;
-                do
+                Random random = new Random();
+                int wins = 0;
+                int losses = 0;
+
+                for (int i = 0; i < numSimulations; i++)
                 {
-                    presenterOpen = random.Next(3);
-                } while (presenterOpen == carPosition || presenterOpen == playerChoice);
+                    // Randomly place the car behind one of the three doors
+                    int carPosition = random.Next(3);
 
-                // If the player chooses to change the door, they switch to a different door
-                if (changeDoor)
-                {
-                    int newChoice;
+                    // Player randomly selects a door this represents the initialize choice
+                    int playerChoice = random.Next(3);
+
+                    // Determine which door the presenter will open
+                    int presenterOpen;
                     do
                     {
-                        newChoice = random.Next(3);
-                    } while (newChoice == playerChoice || newChoice == presenterOpen);
-                    playerChoice = newChoice;
-                }
+                        presenterOpen = random.Next(3);
+                    } while (presenterOpen == carPosition || presenterOpen == playerChoice);
 
-                // Check if the player's final choice matches the car position
-                if (playerChoice == carPosition)
-                {
-                    wins++;
+                    // If the player chooses to change the door, they switch to a different door
+                    if (changeDoor)
+                    {
+                        int newChoice;
+                        do
+                        {
+                            newChoice = random.Next(3);
+                        } while (newChoice == playerChoice || newChoice == presenterOpen);
+                        playerChoice = newChoice;
+                    }
+
+                    // Check if the player's final choice matches the car position
+                    if (playerChoice == carPosition)
+                    {
+                        wins++;
+                    }
+                    else
+                    {
+                        losses++;
+                    }
                 }
-                else
+                return new MontyHallResult
                 {
-                    losses++;
-                }
+                    TotalSimulations = numSimulations,
+                    Wins = wins,
+                    Losses = losses
+                };
             }
 
-            return new MontyHallResult
-            {
-                TotalSimulations = numSimulations,
-                Wins = wins,
-                Losses = losses
-            };
-        }
-    }
 
+            catch (Exception ex)
+            {
+                // Log the exception or handle it accordingly
+                Console.WriteLine($"An error occurred during simulation: {ex.Message}");
+                return new MontyHallResult
+                {
+                    TotalSimulations = 0,
+                    Wins = 0,
+                    Losses = 0
+                };
+            }
+        }
+
+    }
 }
